@@ -27,10 +27,12 @@ def fetch_and_build_calendar():
         date_str = match.get("date")
         time_str = match.get("time") 
         
-        try:
+try:
+            # 1. Parse the raw time from the API
             naive_time = datetime.strptime(f"{date_str} {time_str[:5]}", "%Y-%m-%d %H:%M")
-            utc_time = naive_time.replace(tzinfo=ZoneInfo("UTC"))
-            eastern_time = utc_time.astimezone(ZoneInfo("America/New_York"))
+            
+            # 2. Tell Python this time is ALREADY Eastern Time
+            eastern_time = naive_time.replace(tzinfo=ZoneInfo("America/New_York"))
             
             event.begin = eastern_time
             # Standard match length + buffer
